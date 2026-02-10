@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth } from './firebase'; // We will create this file next
+import { auth } from './firebase'; 
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 const RegisterPage: React.FC = () => {
