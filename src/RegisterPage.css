@@ -1,78 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4f7f6;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100vw;
+  background-image: url('/money-bag.jpg');
+  background-color: rgba(0, 0, 0, 0.6);
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
 }
 
-.register-card {
-  background: white;
+.glass-card {
+  display: flex;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
   padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
+  width: 900px;
+  max-width: 90%;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  gap: 40px;
 }
 
-h2 {
+.form-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.action-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 40px;
+}
+
+.side-image {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
   margin-bottom: 20px;
-  color: #333;
+  display: block;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
 }
 
 input {
   width: 100%;
-  padding: 12px;
+  padding: 15px 20px;
   margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 50px;
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  color: #1a1a2e;
+  outline: none;
+  transition: 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+
+input:focus {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+input::placeholder {
+  color: #555;
 }
 
 .btn-primary {
   width: 100%;
-  padding: 12px;
-  background-color: #28a745;
+  padding: 15px;
+  background-color: #0f1020;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
+  font-weight: 600;
   font-size: 16px;
-  margin-top: 10px;
+  transition: transform 0.2s, background-color 0.2s;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .btn-primary:hover {
-  background-color: #218838;
+  transform: translateY(-2px);
+  background-color: #23243a;
+}
+
+.login-link {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.link-text {
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: underline;
 }
 
 .divider {
-  margin: 20px 0;
-  display: flex;
-  align-items: center;
-  color: #888;
+  margin: 15px 0;
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.divider::before, .divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #eee;
-  margin: 0 10px;
-}
-
-.btn-google {
+.btn-social {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 50px;
+  border: none;
   background: white;
-  border: 1px solid #4285f4;
-  color: #4285f4;
-  border-radius: 5px;
+  color: #333;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  cursor: pointer;
   font-weight: 600;
+  font-size: 14px;
+  transition: 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-social:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    flex-direction: column;
+    padding: 25px;
+    width: 95%;
+    gap: 20px;
+  }
+  .action-section {
+    border-left: none;
+    padding-left: 0;
+    margin-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 20px;
+  }
+  .side-image {
+    display: none;
+  }
 }
