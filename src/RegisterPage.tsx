@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { auth } from './firebase';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
+import { 
+  createUserWithEmailAndPassword, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  updateProfile 
+} from 'firebase/auth';
+import toast from 'react-hot-toast';
 import './RegisterPage.css';
 
 const RegisterPage: React.FC = () => {
@@ -12,15 +18,27 @@ const RegisterPage: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: fullName });
-      alert("Account created successfully!");
+      toast.success("Account created successfully 🎉");
+      setFullName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } catch (error: any) {
-      alert(error.message);
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("This email is already registered. Please login.");
+      } else if (error.code === "auth/invalid-email") {
+        toast.error("Invalid email address.");
+      } else if (error.code === "auth/weak-password") {
+        toast.error("Password should be at least 6 characters.");
+      } else {
+        toast.error("Registration failed. Please try again.");
+      }
     }
   };
 
@@ -28,8 +46,9 @@ const RegisterPage: React.FC = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
+      toast.success("Signed in with Google 🚀");
     } catch (error: any) {
-      alert(error.message);
+      toast.error("Google sign-in failed. Please try again.");
     }
   };
 
@@ -39,7 +58,7 @@ const RegisterPage: React.FC = () => {
         <div className="form-section">
           <div style={{ marginBottom: '30px', textAlign: 'left' }}>
             <h1 style={{ 
-              margin: '0', 
+              margin: 0, 
               fontSize: '3rem', 
               color: '#1a1a2e', 
               fontFamily: "'Playfair Display', serif",
@@ -51,7 +70,7 @@ const RegisterPage: React.FC = () => {
               margin: '5px 0 0', 
               fontSize: '1.2rem', 
               color: '#f0c040',
-              fontWeight: '700', 
+              fontWeight: 700, 
               fontFamily: "'Playfair Display', serif" 
             }}>
               Expense Tracker
@@ -87,7 +106,7 @@ const RegisterPage: React.FC = () => {
               onChange={(e) => setConfirmPassword(e.target.value)} 
               required 
             />
-             <button type="submit" style={{display: 'none'}}></button>
+            <button type="submit" style={{ display: 'none' }}></button>
           </form>
         </div>
 
@@ -95,24 +114,23 @@ const RegisterPage: React.FC = () => {
           <img src="/money-bag.jpg" alt="Expense Tracker Illustration" className="side-image" />
 
           <button onClick={handleRegister} className="btn-primary">Sign Up</button>
-          
+
           <p className="login-link">
             Already have an account? <span className="link-text">Log in</span>
           </p>
-          
+
           <div className="divider">Or</div>
-          
+
           <button onClick={handleGoogleSignIn} className="btn-social google">
-            <span style={{fontWeight: 'bold', fontSize: '18px', color: '#DB4437'}}>G</span> 
+            <span style={{ fontWeight: 'bold', fontSize: '18px', color: '#DB4437' }}>G</span>
             <span>Sign up with Google</span>
           </button>
-          
+
           <button className="btn-social facebook">
-            <span style={{fontWeight: 'bold', fontSize: '18px', color: '#1877F2'}}>f</span> 
+            <span style={{ fontWeight: 'bold', fontSize: '18px', color: '#1877F2' }}>f</span>
             <span>Sign up with Facebook</span>
           </button>
         </div>
-
       </div>
     </div>
   );
