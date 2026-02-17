@@ -27,7 +27,7 @@ const RegisterPage: React.FC = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: fullName });
 
-      toast.success("Account created successfully 🎉");
+      toast.success("Account created successfully");
 
       setFullName('');
       setEmail('');
@@ -50,7 +50,7 @@ const RegisterPage: React.FC = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      toast.success("Signed in with Google 🚀");
+      toast.success("Signed in with Google");
     } catch {
       toast.error("Google sign-in failed.");
     }
@@ -61,7 +61,7 @@ const RegisterPage: React.FC = () => {
       <div className="glass-card">
         <div className="form-section">
           <div style={{ marginBottom: '30px' }}>
-            <h1 style={{
+            <h1 style={{ 
               margin: 0,
               fontSize: '3rem',
               color: '#ffffff',
@@ -145,3 +145,4 @@ const RegisterPage: React.FC = () => {
 };
 
 export default RegisterPage;
+
