@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { auth } from './firebase';
-import { 
-  createUserWithEmailAndPassword, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  updateProfile 
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile
 } from 'firebase/auth';
 import toast from 'react-hot-toast';
 import './RegisterPage.css';
@@ -17,25 +17,29 @@ const RegisterPage: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match!");
       return;
     }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: fullName });
-      toast.success("Account created successfully 🎉");
+
+      toast.success("Account created successfully");
+
       setFullName('');
       setEmail('');
       setPassword('');
       setConfirmPassword('');
     } catch (error: any) {
       if (error.code === "auth/email-already-in-use") {
-        toast.error("This email is already registered. Please login.");
+        toast.error("This email is already registered.");
       } else if (error.code === "auth/invalid-email") {
         toast.error("Invalid email address.");
       } else if (error.code === "auth/weak-password") {
-        toast.error("Password should be at least 6 characters.");
+        toast.error("Password must be at least 6 characters.");
       } else {
         toast.error("Registration failed. Please try again.");
       }
@@ -46,9 +50,9 @@ const RegisterPage: React.FC = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      toast.success("Signed in with Google 🚀");
-    } catch (error: any) {
-      toast.error("Google sign-in failed. Please try again.");
+      toast.success("Signed in with Google");
+    } catch {
+      toast.error("Google sign-in failed.");
     }
   };
 
@@ -56,64 +60,68 @@ const RegisterPage: React.FC = () => {
     <div className="register-container">
       <div className="glass-card">
         <div className="form-section">
-          <div style={{ marginBottom: '30px', textAlign: 'left' }}>
+          <div style={{ marginBottom: '30px' }}>
             <h1 style={{ 
-              margin: 0, 
-              fontSize: '3rem', 
-              color: '#1a1a2e', 
-              fontFamily: "'Playfair Display', serif",
-              textShadow: '0 2px 4px rgba(255,255,255,0.3)'
+              margin: 0,
+              fontSize: '3rem',
+              color: '#ffffff',
+              fontFamily: "'Playfair Display', serif"
             }}>
               Welcome to
             </h1>
-            <p style={{ 
-              margin: '5px 0 0', 
-              fontSize: '1.2rem', 
+
+            <p style={{
+              margin: '5px 0 0',
+              fontSize: '1.3rem',
               color: '#f0c040',
-              fontWeight: 700, 
-              fontFamily: "'Playfair Display', serif" 
+              fontWeight: 700,
+              fontFamily: "'Playfair Display', serif"
             }}>
-              Expense Tracker
+              Cash Trail – A Personal Expense Tracker
             </p>
           </div>
 
           <form onSubmit={handleRegister}>
-            <input 
-              type="text" 
-              placeholder="Full Name" 
-              value={fullName} 
-              onChange={(e) => setFullName(e.target.value)} 
-              required 
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
             />
-            <input 
-              type="email" 
-              placeholder="Email Address" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
+
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-            <input 
-              type="password" 
-              placeholder="Password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
-            <input 
-              type="password" 
-              placeholder="Confirm Password" 
-              value={confirmPassword} 
-              onChange={(e) => setConfirmPassword(e.target.value)} 
-              required 
+
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
             />
+
             <button type="submit" style={{ display: 'none' }}></button>
           </form>
         </div>
 
         <div className="action-section">
-          <img src="/money-bag.jpg" alt="Expense Tracker Illustration" className="side-image" />
-
-          <button onClick={handleRegister} className="btn-primary">Sign Up</button>
+          <button onClick={handleRegister} className="btn-primary">
+            Sign Up
+          </button>
 
           <p className="login-link">
             Already have an account? <span className="link-text">Log in</span>
@@ -121,12 +129,12 @@ const RegisterPage: React.FC = () => {
 
           <div className="divider">Or</div>
 
-          <button onClick={handleGoogleSignIn} className="btn-social google">
+          <button onClick={handleGoogleSignIn} className="btn-social">
             <span style={{ fontWeight: 'bold', fontSize: '18px', color: '#DB4437' }}>G</span>
             <span>Sign up with Google</span>
           </button>
 
-          <button className="btn-social facebook">
+          <button className="btn-social">
             <span style={{ fontWeight: 'bold', fontSize: '18px', color: '#1877F2' }}>f</span>
             <span>Sign up with Facebook</span>
           </button>
@@ -137,3 +145,4 @@ const RegisterPage: React.FC = () => {
 };
 
 export default RegisterPage;
+
