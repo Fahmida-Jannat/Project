@@ -7,27 +7,22 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-image: url('/money-bag.jpg');
-  background-color: rgba(0, 0, 0, 0.6);
-  background-blend-mode: overlay;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: linear-gradient(135deg, #0f1020, #1a1a2e);
   font-family: 'Poppins', sans-serif;
   overflow: hidden;
 }
 
 .glass-card {
   display: flex;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 20px;
   padding: 40px;
   width: 900px;
-  max-width: 90%;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  max-width: 95%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   gap: 40px;
 }
 
@@ -43,18 +38,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
   padding-left: 40px;
-}
-
-.side-image {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  margin-bottom: 20px;
-  display: block;
-  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
+  border-left: 1px solid rgba(255,255,255,0.15);
 }
 
 input {
@@ -63,62 +48,55 @@ input {
   margin: 10px 0;
   border-radius: 50px;
   border: none;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255,255,255,0.85);
   font-size: 14px;
   color: #1a1a2e;
   outline: none;
   transition: 0.3s;
-  font-family: 'Poppins', sans-serif;
 }
 
 input:focus {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-}
-
-input::placeholder {
-  color: #555;
+  background: white;
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
 }
 
 .btn-primary {
   width: 100%;
   padding: 15px;
-  background-color: #0f1020;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
   color: white;
   border: none;
   border-radius: 50px;
   cursor: pointer;
   font-weight: 600;
   font-size: 16px;
-  transition: transform 0.2s, background-color 0.2s;
   margin-bottom: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: 0.3s;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  background-color: #23243a;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .login-link {
-  margin: 10px 0;
+  margin: 12px 0;
   font-size: 14px;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  color: white;
+  text-align: center;
 }
 
 .link-text {
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  color: #fff;
+  color: #f0c040;
   text-decoration: underline;
 }
 
 .divider {
   margin: 15px 0;
   color: rgba(255,255,255,0.8);
-  font-size: 14px;
-  font-weight: 500;
+  text-align: center;
 }
 
 .btn-social {
@@ -131,35 +109,26 @@ input::placeholder {
   color: #333;
   cursor: pointer;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 10px;
   font-weight: 600;
-  font-size: 14px;
-  transition: 0.2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .btn-social:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 @media (max-width: 768px) {
   .glass-card {
     flex-direction: column;
     padding: 25px;
-    width: 95%;
-    gap: 20px;
   }
+
   .action-section {
-    border-left: none;
     padding-left: 0;
-    margin-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.15);
     padding-top: 20px;
-  }
-  .side-image {
-    display: none;
   }
 }
