@@ -1,46 +1,54 @@
-import { signOut } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import type { User } from 'firebase/auth'; 
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Dashboard.css';
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const user = auth.currentUser;
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        navigate('/');
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleLogout = async () => {
-    await signOut(auth);
-    navigate('/');
+    try {
+      await signOut(auth);
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
+  if (loading) {
+    return (
+      <div className="dashboard-container">
+        <div className="glass-card">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f1020, #1a1a2e)',
-      color: 'white',
-      padding: '40px'
-    }}>
-
-      <h1>Welcome, {user?.displayName || 'User'} 👋</h1>
-
-      <p style={{ opacity: 0.8 }}>
-        This is your dashboard. Expense system coming next.
-      </p>
-
-      <button
-        onClick={handleLogout}
-        style={{
-          marginTop: '20px',
-          padding: '12px 30px',
-          borderRadius: '30px',
-          border: 'none',
-          background: 'linear-gradient(135deg, #ff0080, #7928ca)',
-          color: 'white',
-          fontWeight: 600,
-          cursor: 'pointer'
-        }}
-      >
-        Logout
-      </button>
-
+    <div className="dashboard-container">
+      <div className="glass-card">
+        <h1>Welcome, {user?.displayName || 'User'} 👋</h1>
+        <p>This is your dashboard. Expense system coming next.</p>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
     </div>
   );
 };

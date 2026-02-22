@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom'; // ✅ import useNavigate
+import { useNavigate } from 'react-router-dom';
 import '../styles/RegisterPage.css';
 
 const RegisterPage: React.FC = () => {
   const [fullName, setFullName] = useState('');
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const navigate = useNavigate(); // ✅ initialize navigate
+  const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,15 +31,12 @@ const RegisterPage: React.FC = () => {
 
       toast.success("Registration Successful");
 
-      // Clear form
       setFullName('');
-      setUsername('');
       setEmail('');
       setPhone('');
       setPassword('');
       setConfirmPassword('');
 
-      // ✅ Automatically navigate to login after successful registration
       navigate('/login');
 
     } catch (error: any) {
@@ -57,9 +53,11 @@ const RegisterPage: React.FC = () => {
   return (
     <div className="register-container">
       <div className="glass-card">
-        <h2>Registration</h2>
+        <h2>Create Account</h2>
+
         <form onSubmit={handleRegister}>
           <div className="form-grid">
+
             <div className="input-box">
               <input
                 type="text"
@@ -72,18 +70,8 @@ const RegisterPage: React.FC = () => {
 
             <div className="input-box">
               <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="input-box">
-              <input
                 type="email"
-                placeholder="Email"
+                placeholder="Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -110,7 +98,7 @@ const RegisterPage: React.FC = () => {
               />
             </div>
 
-            <div className="input-box">
+            <div className="input-box full-width">
               <input
                 type="password"
                 placeholder="Confirm Password"
@@ -125,19 +113,13 @@ const RegisterPage: React.FC = () => {
                 Register
               </button>
             </div>
+
           </div>
         </form>
-
-        {/* ✅ Make Login link functional */}
         <p className="login-link">
-          Already have an account?{' '}
-          <span
-            style={{ cursor: 'pointer', color: '#ffb6ff', fontWeight: 600 }}
-            onClick={() => navigate('/login')}
-          >
-            Login
-          </span>
+          Already have an account? <span onClick={() => navigate('/login')}>Login</span>
         </p>
+
       </div>
     </div>
   );
