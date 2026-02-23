@@ -208,4 +208,36 @@ p {
   p {
     font-size: 13px;
   }
+} 
+
+
+.password-box {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.15); 
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease;
+}
+
+.toggle-password:hover {
+  background: rgba(255, 255, 255, 0.25); 
+}
+
+.toggle-password img {
+  width: 16px;  
+  height: 16px;
+  object-fit: contain;
+  filter: brightness(1.2); 
 }

@@ -14,7 +14,7 @@ html, body {
   overflow: hidden;
 }
 
-.register-container {
+.dashboard-container {
   position: fixed;
   inset: 0;
   display: flex;
@@ -24,8 +24,8 @@ html, body {
   overflow: hidden;
 }
 
-.register-container::before,
-.register-container::after {
+.dashboard-container::before,
+.dashboard-container::after {
   content: '';
   position: absolute;
   width: 420px;
@@ -36,13 +36,13 @@ html, body {
   animation: float 10s infinite alternate ease-in-out;
 }
 
-.register-container::before {
+.dashboard-container::before {
   background: #2EC4FF;
   top: -140px;
   left: -140px;
 }
 
-.register-container::after {
+.dashboard-container::after {
   background: #1B5F8A;
   bottom: -140px;
   right: -140px;
@@ -55,7 +55,7 @@ html, body {
 }
 
 .glass-card {
-  width: 760px;
+  width: 720px;
   max-width: 94%;
   background: rgba(30, 78, 110, 0.55);
   backdrop-filter: blur(18px);
@@ -65,6 +65,7 @@ html, body {
   box-shadow: 0 0 35px rgba(46,196,255,0.25);
   animation: fadeUp 0.7s ease;
   z-index: 2;
+  text-align: center;
 }
 
 @keyframes fadeUp {
@@ -72,133 +73,51 @@ html, body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-h2 {
+.glass-card h1 {
   color: #EAF6FF;
-  text-align: center;
-  font-size: 30px;
-  letter-spacing: 1px;
-  margin-bottom: 26px;
+  font-size: 32px;
+  margin-bottom: 12px;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
+.glass-card p {
+  color: #cfeeff;
+  opacity: 0.85;
+  margin-bottom: 30px;
 }
 
-.input-box input {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(46,196,255,0.25);
-  outline: none;
-  font-size: 14px;
-  background: rgba(15,42,61,0.9);
-  color: #EAF6FF;
-  caret-color: #2EC4FF;
-  transition: 0.3s ease;
-}
-
-.input-box input::placeholder {
-  color: #a8dfff;
-  opacity: 0.8;
-}
-
-.input-box input:focus {
-  border-color: #2EC4FF;
-  box-shadow: 0 0 12px rgba(46,196,255,0.7);
-  background: rgba(15,42,61,0.95);
-}
-
-.full-width {
-  grid-column: span 2;
-}
-
-.btn-primary {
-  margin-top: 22px;
-  width: 100%;
-  padding: 14px;
+.glass-card button {
+  margin-top: 10px;
+  padding: 14px 32px;
   border-radius: 40px;
   border: none;
   background: linear-gradient(135deg, #1B5F8A, #2EC4FF);
   background-size: 200%;
   color: #fff;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.35s ease;
   box-shadow: 0 0 18px rgba(46,196,255,0.4);
 }
 
-.btn-primary:hover {
+.glass-card button:hover {
   background-position: right;
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 0 28px rgba(46,196,255,0.8);
 }
 
-.login-link {
-  margin-top: 16px;
-  color: #cfeeff;
-  font-size: 13px;
-  text-align: center;
-}
 
-.login-link span {
-  color: #2EC4FF;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.login-link span:hover {
-  text-decoration: underline;
-}
-
-/* mobile layout */
 @media (max-width: 768px) {
   .glass-card {
     padding: 30px 24px;
   }
 
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .full-width {
-    grid-column: span 1;
-  }
-
-  h2 {
+  .glass-card h1 {
     font-size: 26px;
   }
-}
 
-.password-box {
-  position: relative;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  width: 28px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.15); 
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s ease;
-}
-
-.toggle-password:hover {
-  background: rgba(255, 255, 255, 0.25); 
-}
-
-.toggle-password img {
-  width: 16px;  
-  height: 16px;
-  object-fit: contain;
-  filter: brightness(1.2); 
+  .glass-card button {
+    width: 100%;
+    padding: 14px 0;
+  }
 }

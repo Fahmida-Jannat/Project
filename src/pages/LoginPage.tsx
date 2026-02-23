@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
   onAuthStateChanged,
   type User
 } from 'firebase/auth';
@@ -15,9 +16,11 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Redirect if user is already logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       if (user) navigate('/dashboard');
@@ -25,6 +28,7 @@ const LoginPage: React.FC = () => {
     return () => unsubscribe();
   }, [navigate]);
 
+  // Email/password login
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -38,6 +42,7 @@ const LoginPage: React.FC = () => {
     setLoading(false);
   };
 
+  // Google login
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
@@ -49,6 +54,19 @@ const LoginPage: React.FC = () => {
     }
   };
 
+  // Password reset
+  const handlePasswordReset = async () => {
+    const resetEmail = prompt('Enter your registered email:');
+    if (!resetEmail) return;
+
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      toast.success('Password reset email sent! Check your inbox.');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to send reset email');
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="glass-card">
@@ -57,6 +75,7 @@ const LoginPage: React.FC = () => {
         <p className="subtitle">Login to your account</p>
 
         <form onSubmit={handleLogin} className="login-form">
+          {/* Email input */}
           <div className="input-box">
             <input
               type="email"
@@ -67,16 +86,28 @@ const LoginPage: React.FC = () => {
             />
           </div>
 
-          <div className="input-box">
+          {/* Password input with show/hide */}
+          <div className="input-box password-box">
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <span
+              className="toggle-password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <img src="/icons/eye-off.png" alt="Hide" />
+              ) : (
+                <img src="/icons/eye.png" alt="Show" />
+              )}
+            </span>
           </div>
 
+          {/* Options */}
           <div className="options-row">
             <label>
               <input
@@ -86,22 +117,22 @@ const LoginPage: React.FC = () => {
               />
               Remember Me
             </label>
-            <span
-              className="forgot"
-              onClick={() => toast('Password reset flow coming soon')}
-            >
+            <span className="forgot" onClick={handlePasswordReset}>
               Forgot Password?
             </span>
           </div>
 
+          {/* Login button */}
           <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? 'Logging in...' : 'Log In'}
           </button>
         </form>
 
-        <p style={{ margin: '15px 0', textAlign: 'center', fontWeight: 500 }}>or</p>
+        <p style={{ margin: '15px 0', textAlign: 'center', fontWeight: 500 }}>
+          or
+        </p>
 
-        {/* Google Icon Login */}
+        {/* Google login icon */}
         <div className="google-icon-box">
           <button onClick={handleGoogleLogin} className="google-icon-btn">
             <img
@@ -111,8 +142,10 @@ const LoginPage: React.FC = () => {
           </button>
         </div>
 
+        {/* Register link */}
         <p className="login-link">
-          Don’t have an account? <span onClick={() => navigate('/register')}>Register</span>
+          Don’t have an account?{' '}
+          <span onClick={() => navigate('/register')}>Register</span>
         </p>
       </div>
     </div>

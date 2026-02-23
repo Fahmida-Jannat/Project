@@ -11,6 +11,8 @@ const RegisterPage: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -88,24 +90,44 @@ const RegisterPage: React.FC = () => {
               />
             </div>
 
-            <div className="input-box">
+            {/* Password input with toggle */}
+            <div className="input-box password-box">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <span
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <img
+                  src={showPassword ? "/icons/eye-off.png" : "/icons/eye.png"}
+                  alt={showPassword ? "Hide" : "Show"}
+                />
+              </span>
             </div>
 
-            <div className="input-box full-width">
+            {/* Confirm Password input with toggle */}
+            <div className="input-box full-width password-box">
               <input
-                type="password"
+                type={showConfirmPassword ? 'text' : 'password'}
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
+              <span
+                className="toggle-password"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                <img
+                  src={showConfirmPassword ? "/icons/eye-off.png" : "/icons/eye.png"}
+                  alt={showConfirmPassword ? "Hide" : "Show"}
+                />
+              </span>
             </div>
 
             <div className="full-width">
@@ -116,8 +138,10 @@ const RegisterPage: React.FC = () => {
 
           </div>
         </form>
+
         <p className="login-link">
-          Already have an account? <span onClick={() => navigate('/login')}>Login</span>
+          Already have an account?{' '}
+          <span onClick={() => navigate('/login')}>Login</span>
         </p>
 
       </div>
