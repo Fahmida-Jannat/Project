@@ -31,7 +31,7 @@ const TransactionForm: React.FC<Props> = (props) => {
     // If all good, proceed
     props.onProcess();
     
-    // Optional: Show success if adding a new record
+    //  Show success if adding a new record
     if (!props.editingId) {
       NotificationFacade.success(`${props.type} added successfully!`);
     }
