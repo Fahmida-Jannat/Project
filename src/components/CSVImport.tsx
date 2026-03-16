@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { Upload } from 'lucide-react'; 
-import { NotificationFacade } from '../facades/NotificationFacade';
+import { NotificationFacade } from '../components/NotificationFacade';
 
 interface CSVImportProps {
   userId: string;

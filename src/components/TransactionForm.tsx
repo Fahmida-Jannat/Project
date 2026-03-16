@@ -1,5 +1,5 @@
 import React from 'react';
-import { NotificationFacade } from '../facades/NotificationFacade';
+import { NotificationFacade } from '../components/NotificationFacade';
 
 interface Props {
   type: 'income' | 'expense';

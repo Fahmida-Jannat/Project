@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { NotificationFacade } from "../facades/NotificationFacade";
+import { NotificationFacade } from "../components/NotificationFacade";
 import { useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
 

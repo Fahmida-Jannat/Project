@@ -11,7 +11,7 @@ import {
   type User,
 } from "firebase/auth";
 import { auth } from "../firebase";
-import { NotificationFacade } from "../facades/NotificationFacade";
+import { NotificationFacade } from "../components/NotificationFacade";
 
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";

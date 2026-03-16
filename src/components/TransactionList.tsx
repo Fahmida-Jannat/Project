@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Download, Edit2, Trash2, Calendar, Search } from 'lucide-react';
 
 // Importing the Facade Pattern
-import { NotificationFacade } from '../facades/NotificationFacade';
+import { NotificationFacade } from '../components/NotificationFacade';
 
 interface Props {
   records: any[];
