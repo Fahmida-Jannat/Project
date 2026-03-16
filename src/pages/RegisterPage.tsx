@@ -1,23 +1,56 @@
-import React, { useState } from 'react';
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import '../styles/RegisterPage.css';
+import React, { useState } from "react";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import "../styles/RegisterPage.css";
 
 const RegisterPage: React.FC = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+
+  const [fullName, setFullName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const navigate = useNavigate();
+  const [passwordStrength, setPasswordStrength] = useState("");
+
+  // Strong password validation
+  const validatePassword = (pass: string) => {
+    const strongPassword =
+      /^(?=.*[a-zA-Z])(?=.*[\d@$!%*?&]).{8,}$/;
+
+    return strongPassword.test(pass);
+  };
+
+  // Password strength checker
+  const checkStrength = (value: string) => {
+    if (value.length < 6) setPasswordStrength("Weak");
+    else if (value.match(/[A-Z]/) && value.match(/[0-9]/))
+      setPasswordStrength("Medium");
+    else if (
+      value.match(/[A-Z]/) &&
+      value.match(/[a-z]/) &&
+      value.match(/[0-9]/) &&
+      value.match(/[@$!%*?&]/)
+    )
+      setPasswordStrength("Strong");
+    else setPasswordStrength("Weak");
+  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validatePassword(password)) {
+      toast.error(
+        "Password must contain 8+ characters, uppercase or lowercase, number or special character."
+      );
+      return;
+    }
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
@@ -25,27 +58,30 @@ const RegisterPage: React.FC = () => {
     }
 
     try {
-      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      const userCred = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
       await updateProfile(userCred.user, {
-        displayName: fullName,
+        displayName: `${fullName} (${userId})`,
       });
 
       toast.success("Registration Successful");
 
-      setFullName('');
-      setEmail('');
-      setPhone('');
-      setPassword('');
-      setConfirmPassword('');
+      setFullName("");
+      setUserId("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
 
-      navigate('/login');
-
+      navigate("/login");
     } catch (error: any) {
-      if (error.code === 'auth/email-already-in-use') {
+      if (error.code === "auth/email-already-in-use") {
         toast.error("Email already exists");
-      } else if (error.code === 'auth/weak-password') {
-        toast.error("Password should be at least 6 characters");
+      } else if (error.code === "auth/weak-password") {
+        toast.error("Password too weak");
       } else {
         toast.error("Registration failed");
       }
@@ -60,6 +96,7 @@ const RegisterPage: React.FC = () => {
         <form onSubmit={handleRegister}>
           <div className="form-grid">
 
+            {/* Full Name */}
             <div className="input-box">
               <input
                 type="text"
@@ -70,6 +107,18 @@ const RegisterPage: React.FC = () => {
               />
             </div>
 
+            {/* User ID */}
+            <div className="input-box">
+              <input
+                type="text"
+                placeholder="User ID"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+                required
+              />
+            </div>
+
+            {/* Email */}
             <div className="input-box">
               <input
                 type="email"
@@ -80,56 +129,66 @@ const RegisterPage: React.FC = () => {
               />
             </div>
 
-            <div className="input-box">
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
-            </div>
-
-            {/* Password input with toggle */}
+            {/* Password */}
             <div className="input-box password-box">
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setPassword(value);
+                  checkStrength(value);
+                }}
                 required
               />
+
               <span
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 <img
                   src={showPassword ? "/icons/eye-off.png" : "/icons/eye.png"}
-                  alt={showPassword ? "Hide" : "Show"}
+                  alt="toggle"
                 />
               </span>
             </div>
 
-            {/* Confirm Password input with toggle */}
+            {/* Password Strength */}
+            {password && (
+              <p className={`password-strength ${passwordStrength.toLowerCase()}`}>
+                Strength: {passwordStrength}
+              </p>
+            )}
+
+            {/* Confirm Password */}
             <div className="input-box full-width password-box">
               <input
-                type={showConfirmPassword ? 'text' : 'password'}
+                type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
+
               <span
                 className="toggle-password"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                onClick={() =>
+                  setShowConfirmPassword(!showConfirmPassword)
+                }
               >
                 <img
-                  src={showConfirmPassword ? "/icons/eye-off.png" : "/icons/eye.png"}
-                  alt={showConfirmPassword ? "Hide" : "Show"}
+                  src={
+                    showConfirmPassword
+                      ? "/icons/eye-off.png"
+                      : "/icons/eye.png"
+                  }
+                  alt="toggle"
                 />
               </span>
             </div>
 
+            {/* Register Button */}
             <div className="full-width">
               <button type="submit" className="btn-primary">
                 Register
@@ -140,8 +199,8 @@ const RegisterPage: React.FC = () => {
         </form>
 
         <p className="login-link">
-          Already have an account?{' '}
-          <span onClick={() => navigate('/login')}>Login</span>
+          Already have an account?{" "}
+          <span onClick={() => navigate("/login")}>Login</span>
         </p>
 
       </div>

@@ -24,6 +24,7 @@ html, body {
   overflow: hidden;
 }
 
+/* Background decorative blobs */
 .login-container::before,
 .login-container::after {
   content: '';
@@ -55,14 +56,15 @@ html, body {
 }
 
 .glass-card {
-  width: 400px;
-  max-width: 94%;
-  background: rgba(30, 78, 110, 0.55);
-  backdrop-filter: blur(18px);
-  border-radius: 20px;
-  padding: 45px;
-  border: 1px solid rgba(46,196,255,0.35);
-  box-shadow: 0 0 35px rgba(46,196,255,0.25);
+  /* MODIFIED: Increased width for a better aspect ratio */
+  width: 480px; 
+  max-width: 90%;
+  background: rgba(30, 78, 110, 0.45);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 50px;
+  border: 1px solid rgba(46,196,255,0.3);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
   animation: fadeUp 0.7s ease;
   z-index: 2;
   text-align: center;
@@ -73,143 +75,135 @@ html, body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* MODIFIED: Scaled down the logo text */
 h2 {
   color: #EAF6FF;
-  font-size: 30px;
-  letter-spacing: 1px;
-  margin-bottom: 12px;
+  font-size: 38px; /* Balanced size */
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+
+.welcome-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #EAF6FF;
 }
 
 p {
   color: #cfeeff;
-  font-size: 14px;
-  margin-bottom: 26px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 18px;
+  font-size: 15px;
+  margin-bottom: 30px;
+  opacity: 0.8;
 }
 
 .input-box {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 18px;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 .input-box input {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(46,196,255,0.25);
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(46,196,255,0.2);
   outline: none;
-  font-size: 14px;
-  background: rgba(15,42,61,0.9);
+  font-size: 15px;
+  background: rgba(15,42,61,0.6);
   color: #EAF6FF;
-  caret-color: #2EC4FF;
   transition: 0.3s ease;
-}
-
-.input-box input::placeholder {
-  color: #a8dfff;
-  opacity: 0.8;
 }
 
 .input-box input:focus {
   border-color: #2EC4FF;
-  box-shadow: 0 0 12px rgba(46,196,255,0.7);
-  background: rgba(15,42,61,0.95);
+  background: rgba(15,42,61,0.8);
+  box-shadow: 0 0 15px rgba(46,196,255,0.3);
 }
 
 .options-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 25px;
+  /* MODIFIED: Prevent wrapping so "Remember Me" stays on one line */
+  flex-wrap: nowrap; 
   color: #cfeeff;
 }
 
 .options-row label {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   cursor: pointer;
+  white-space: nowrap; /* Forces text to stay on one line */
+}
+
+/* Custom Checkbox Style */
+input[type="checkbox"] {
+  accent-color: #2EC4FF;
+  width: 16px;
+  height: 16px;
 }
 
 .options-row .forgot {
   cursor: pointer;
   color: #2EC4FF;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.options-row .forgot:hover {
-  text-decoration: underline;
-  color: #79ddff;
-}
-
-.full-width {
-  grid-column: span 1;
+  font-weight: 500;
+  text-decoration: none;
 }
 
 .btn-primary {
-  margin-top: 22px;
   width: 100%;
-  padding: 14px;
-  border-radius: 40px;
+  padding: 16px;
+  border-radius: 14px; /* Matches input radius for consistency */
   border: none;
-  background: linear-gradient(135deg, #1B5F8A, #2EC4FF);
-  background-size: 200%;
+  background: #26A6E0;
   color: #fff;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.35s ease;
-  box-shadow: 0 0 18px rgba(46,196,255,0.4);
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(38, 166, 224, 0.3);
 }
 
 .btn-primary:hover {
-  background-position: right;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 0 28px rgba(46,196,255,0.8);
+  background: #2EC4FF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 196, 255, 0.4);
 }
 
-.login-link {
-  margin-top: 16px;
-  color: #cfeeff;
-  font-size: 13px;
-  text-align: center;
+.social-login {
+  margin-top: 25px;
 }
 
-.login-link span {
-  color: #2EC4FF;
-  font-weight: 600;
+.google-btn {
+  background: #1A1A1A;
+  border-radius: 12px;
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
 }
 
-.login-link span:hover {
-  text-decoration: underline;
+.google-btn:hover {
+  background: #222;
 }
 
-@media (max-width: 768px) {
-  .glass-card {
-    padding: 30px 24px;
-    width: 90%;
-  }
+.register-link {
+  margin-top: 25px;
+  font-size: 14px;
+  color: #cfeeff;
+}
 
-  h2 {
-    font-size: 26px;
-  }
-
-  p {
-    font-size: 13px;
-  }
-} 
-
+.register-link a {
+  color: #2EC4FF;
+  text-decoration: none;
+  font-weight: 600;
+}
 
 .password-box {
   position: relative;
@@ -217,27 +211,64 @@ p {
 
 .toggle-password {
   position: absolute;
-  right: 12px;
+  right: 15px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  width: 28px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.15); 
-  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* Modal Overlay Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* Darkens the background */
+  backdrop-filter: blur(5px);
   display: flex;
-  justify-content: center;
   align-items: center;
-  transition: 0.3s ease;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.toggle-password:hover {
-  background: rgba(255, 255, 255, 0.25); 
+.modal-content {
+  text-align: center;
 }
 
-.toggle-password img {
-  width: 16px;  
-  height: 16px;
-  object-fit: contain;
-  filter: brightness(1.2); 
+.modal-content h2 {
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  margin-bottom: 20px;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex: 1;
+  transition: 0.3s;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-actions .btn-primary {
+  flex: 1;
+  margin-top: 0; /* overrides default top margin if any */
 }

@@ -1,19 +1,21 @@
 import { Navigate } from 'react-router-dom';
-import type { ReactNode } from 'react'; // ✅ type-only import
 import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth } from '../firebase';
+
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
-      setUser(firebaseUser);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
       setLoading(false);
     });
 
@@ -23,7 +25,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   if (loading) {
     return (
       <div style={{ color: 'white', textAlign: 'center', marginTop: '20%' }}>
-        Loading...
+        Checking authentication...
       </div>
     );
   }
