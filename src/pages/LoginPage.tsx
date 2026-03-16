@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
     return () => unsubscribe();
   }, [navigate]);
 
-  // Email/password login
+  // Email/password login required
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
