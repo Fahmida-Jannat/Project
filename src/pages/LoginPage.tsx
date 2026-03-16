@@ -11,7 +11,8 @@ import {
   type User,
 } from "firebase/auth";
 import { auth } from "../firebase";
-import toast from "react-hot-toast";
+import { NotificationFacade } from "../facades/NotificationFacade";
+
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
 
@@ -48,7 +49,7 @@ const LoginPage: React.FC = () => {
         await setPersistence(auth, browserSessionPersistence);
       }
       await signInWithEmailAndPassword(auth, email, password);
-      toast.success("Login successful!");
+      NotificationFacade.success("Login successful!");
       navigate("/dashboard");
     } catch (error: any) {
       // Handle specific Firebase login errors
@@ -59,11 +60,11 @@ const LoginPage: React.FC = () => {
       ) {
         // 'invalid-credential' is the new standard error for both wrong email and wrong password to prevent email enumeration attacks,
         // but we can tailor the message if needed.
-        toast.error("Invalid email or password does not match.");
+        NotificationFacade.error("Invalid email or password does not match.");
       } else if (error.code === "auth/wrong-password") {
-        toast.error("Password does not match.");
+        NotificationFacade.error("Password does not match.");
       } else {
-        toast.error(error.message || "Login failed");
+        NotificationFacade.error(error.message || "Login failed");
       }
     }
 
@@ -75,10 +76,10 @@ const LoginPage: React.FC = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      toast.success("Logged in with Google!");
+      NotificationFacade.success("Logged in with Google!");
       navigate("/dashboard");
     } catch (error: any) {
-      toast.error(error.message || "Google login failed");
+      NotificationFacade.error(error.message || "Google login failed");
     }
   };
 
@@ -86,20 +87,20 @@ const LoginPage: React.FC = () => {
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!resetEmail) {
-      toast.error("Please enter your email");
+      NotificationFacade.error("Please enter your email");
       return;
     }
 
     try {
       await sendPasswordResetEmail(auth, resetEmail);
-      toast.success("A reset link has been sent to your email!");
+      NotificationFacade.success("A reset link has been sent to your email!");
       setShowResetModal(false); // Close modal on success
       setResetEmail(""); // Clear the input
     } catch (error: any) {
       if (error.code === "auth/user-not-found") {
-        toast.error("Email does not exist.");
+        NotificationFacade.error("Email does not exist.");
       } else {
-        toast.error(error.message || "Failed to send reset email");
+        NotificationFacade.error(error.message || "Failed to send reset email");
       }
     }
   };
