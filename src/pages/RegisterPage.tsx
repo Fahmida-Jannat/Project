@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import toast from "react-hot-toast";
+import { NotificationFacade } from "../facades/NotificationFacade";
 import { useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
 
@@ -46,14 +46,14 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
 
     if (!validatePassword(password)) {
-      toast.error(
+      NotificationFacade.error(
         "Password must contain 8+ characters, uppercase or lowercase, number or special character."
       );
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+      NotificationFacade.error("Passwords do not match");
       return;
     }
 
@@ -68,7 +68,7 @@ const RegisterPage: React.FC = () => {
         displayName: `${fullName} (${userId})`,
       });
 
-      toast.success("Registration Successful");
+      NotificationFacade.success("Registration Successful");
 
       setFullName("");
       setUserId("");
@@ -79,11 +79,11 @@ const RegisterPage: React.FC = () => {
       navigate("/login");
     } catch (error: any) {
       if (error.code === "auth/email-already-in-use") {
-        toast.error("Email already exists");
+        NotificationFacade.error("Email already exists");
       } else if (error.code === "auth/weak-password") {
-        toast.error("Password too weak");
+        NotificationFacade.error("Password too weak");
       } else {
-        toast.error("Registration failed");
+        NotificationFacade.error("Registration failed");
       }
     }
   };

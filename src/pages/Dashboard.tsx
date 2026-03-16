@@ -17,7 +17,7 @@ import {
 } from 'chart.js';
 
 import { filterStrategies } from '../utils/filterStrategies';
-import { NotificationFacade } from '../components/NotificationFacade';
+import { NotificationFacade } from '../facades/NotificationFacade';
 
 import SummaryCard from '../components/SummaryCard';
 import TransactionList from '../components/TransactionList';
