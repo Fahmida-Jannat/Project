@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// 2. Your web app's Firebase configuration
+// 2. Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBFxb07LUPHzPGgpJ50p4_wfKz6BLt8z0c",
   authDomain: "expense-tracker-a1aef.firebaseapp.com",
