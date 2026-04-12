@@ -1,36 +1,24 @@
-import { Navigate } from 'react-router-dom';
-import type { ReactNode } from 'react'; // ✅ type-only import
-import { useEffect, useState } from 'react';
-import { auth } from '../firebase';
+import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { onAuthStateChanged, type User } from "firebase/auth";
+import { auth } from "../firebase";
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
+type Props = { children: React.ReactNode };
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const ProtectedRoute: React.FC<Props> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(auth.currentUser);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
-      setUser(firebaseUser);
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u);
       setLoading(false);
     });
-
-    return () => unsubscribe();
+    return () => unsub();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ color: 'white', textAlign: 'center', marginTop: '20%' }}>
-        Loading...
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  if (loading) return null;
+  if (!user) return <Navigate to="/login" replace />;
 
   return <>{children}</>;
 };

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { Upload, AlertCircle, CheckCircle } from 'lucide-react';
+import { Upload } from 'lucide-react'; 
+import { NotificationFacade } from '../components/NotificationFacade';
 
 interface CSVImportProps {
   userId: string;
@@ -11,52 +12,41 @@ interface CSVImportProps {
 const CSVImport: React.FC<CSVImportProps> = ({ userId, onComplete }) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
-      setMessage(null);
     }
   };
 
   const handleImport = async () => {
     if (!file || !userId) {
-      setMessage({ type: 'error', text: 'Please select a CSV file first.' });
+      NotificationFacade.error('Please select a CSV file first.');
       return;
     }
 
     setLoading(true);
-    setMessage(null);
 
     const reader = new FileReader();
     
     reader.onload = async (event) => {
       try {
         const text = event.target?.result as string;
-        // Split by lines and filter out any empty rows
         const rows = text.split('\n').filter(row => row.trim() !== '');
-        
-        // Assuming the first row is the header: Date, Type, Category, Description, Amount
-        // We start looping from index 1 to skip the header
         let importCount = 0;
 
         for (let i = 1; i < rows.length; i++) {
-          // A simple split by comma (Note: this basic split assumes no commas inside the CSV text fields)
-          // If you used the export function from your dashboard, it wraps text in quotes, so we strip them here.
           const columns = rows[i].split(',').map(col => col.replace(/(^"|"$)/g, '').trim());
           
           if (columns.length >= 5) {
             const dateStr = columns[0];
-            const type = columns[1].toLowerCase(); // 'income' or 'expense'
+            const type = columns[1].toLowerCase(); 
             const category = columns[2];
             const description = columns[3];
             const amount = parseFloat(columns[4]);
 
             if (!isNaN(amount) && (type === 'income' || type === 'expense')) {
               const collectionName = type === 'income' ? 'income' : 'expenses';
-              
-              // Convert the date string back to a Date object, fallback to now if invalid
               const parsedDate = new Date(dateStr);
               const dateObj = isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
 
@@ -71,28 +61,26 @@ const CSVImport: React.FC<CSVImportProps> = ({ userId, onComplete }) => {
           }
         }
 
-        setMessage({ type: 'success', text: `Successfully imported ${importCount} transactions!` });
+        // Using the Facade for success
+        NotificationFacade.success(`Successfully imported ${importCount} transactions!`);
         setFile(null);
-        // Reset file input visually
+        
         const fileInput = document.getElementById('csv-upload') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
         
-        // Tell the Dashboard to refresh or change state if needed
-        setTimeout(() => {
-          onComplete();
-          setMessage(null);
-        }, 2000);
+        onComplete();
 
       } catch (error) {
         console.error("Error importing CSV: ", error);
-        setMessage({ type: 'error', text: 'Failed to process the CSV file. Please check the format.' });
+        // Using the Facade for errors
+        NotificationFacade.error('Failed to process the CSV file.');
       } finally {
         setLoading(false);
       }
     };
 
     reader.onerror = () => {
-      setMessage({ type: 'error', text: 'Failed to read the file.' });
+      NotificationFacade.error('Failed to read the file.');
       setLoading(false);
     };
 
@@ -107,7 +95,7 @@ const CSVImport: React.FC<CSVImportProps> = ({ userId, onComplete }) => {
       </div>
       
       <p style={{ fontSize: '0.85rem', color: '#8fa7b7', margin: 0 }}>
-        Upload a CSV file to bulk add transactions. Format required: <strong>Date, Type, Category, Description, Amount</strong>.
+        Upload a CSV file to bulk add transactions. Format: <strong>Date, Type, Category, Description, Amount</strong>.
       </p>
 
       <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -133,20 +121,6 @@ const CSVImport: React.FC<CSVImportProps> = ({ userId, onComplete }) => {
           {loading ? 'Importing...' : 'Start Import'}
         </button>
       </div>
-
-      {message && (
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '8px', 
-          color: message.type === 'error' ? '#e74c3c' : '#2ecc71',
-          fontSize: '0.9rem',
-          marginTop: '5px'
-        }}>
-          {message.type === 'error' ? <AlertCircle size={16} /> : <CheckCircle size={16} />}
-          <span>{message.text}</span>
-        </div>
-      )}
     </div>
   );
 };
