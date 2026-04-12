@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase"; // Make sure db is imported
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore"; // Import Firestore functions
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
@@ -40,7 +41,7 @@ const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [fullName, setFullName]               = useState("");
-  const [userId, setUserId]                   = useState("");
+  const [username, setUsername]               = useState("");
   const [email, setEmail]                     = useState("");
   const [password, setPassword]               = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -65,7 +66,7 @@ const RegisterPage: React.FC = () => {
 
   const isFormValid =
     fullName.trim() !== "" &&
-    userId.trim()   !== "" &&
+    username.trim() !== "" &&
     email.trim()    !== "" &&
     password.length  >= 8  &&
     confirmPassword.length >= 1;
@@ -82,9 +83,20 @@ const RegisterPage: React.FC = () => {
     }
     try {
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(userCred.user, { displayName: `${fullName} (${userId})` });
+      
+      // 1. Update Firebase Auth Profile
+      await updateProfile(userCred.user, { displayName: fullName });
+
+      // 2. Save profile details directly to Firestore so the Dashboard can read them
+      await setDoc(doc(db, 'users', userCred.user.uid, 'profile', 'info'), {
+        fullName: fullName,
+        username: username,
+        email: email,
+        birthdate: '' // Initialize with empty string for the settings page
+      });
+
       toast.success("Registration successful!");
-      setFullName(""); setUserId(""); setEmail("");
+      setFullName(""); setUsername(""); setEmail("");
       setPassword(""); setConfirmPassword("");
       navigate("/login");
     } catch (error: any) {
@@ -145,15 +157,15 @@ const RegisterPage: React.FC = () => {
                 </InputRow>
               </div>
 
-              {/* User ID */}
+              {/* Username */}
               <div className="field-group">
-                <label>User ID</label>
+                <label>Username</label>
                 <InputRow icon={IdIcon}>
                   <input
                     type="text"
-                    placeholder="Enter your user ID"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     required
                   />
                 </InputRow>

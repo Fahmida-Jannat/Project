@@ -12,9 +12,42 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { NotificationFacade } from "../components/NotificationFacade";
-
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
+
+/* ── Eye icons ── */
+const EyeOpenIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+const EyeOffIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+    <path d="m6.72 6.72A3 3 0 1 0 9.88 9.88" />
+    <line x1="1" y1="1" x2="23" y2="23" />
+  </svg>
+);
+
+/* ── Input icons ── */
+const EmailIcon = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>;
+const LockIcon  = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>;
+
+/* ── Reusable InputRow ── */
+interface InputRowProps {
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}
+const InputRow: React.FC<InputRowProps> = ({ icon, children }) => (
+  <div className="input-row">
+    <span className="input-icon">{icon}</span>
+    <span className="input-divider" />
+    {children}
+  </div>
+);
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -52,14 +85,11 @@ const LoginPage: React.FC = () => {
       NotificationFacade.success("Login successful!");
       navigate("/dashboard");
     } catch (error: any) {
-      // Handle specific Firebase login errors
       if (
         error.code === "auth/user-not-found" ||
         error.code === "auth/invalid-email" ||
         error.code === "auth/invalid-credential"
       ) {
-        // 'invalid-credential' is the new standard error for both wrong email and wrong password to prevent email enumeration attacks,
-        // but we can tailor the message if needed.
         NotificationFacade.error("Invalid email or password does not match.");
       } else if (error.code === "auth/wrong-password") {
         NotificationFacade.error("Password does not match.");
@@ -94,8 +124,8 @@ const LoginPage: React.FC = () => {
     try {
       await sendPasswordResetEmail(auth, resetEmail);
       NotificationFacade.success("A reset link has been sent to your email!");
-      setShowResetModal(false); // Close modal on success
-      setResetEmail(""); // Clear the input
+      setShowResetModal(false); 
+      setResetEmail(""); 
     } catch (error: any) {
       if (error.code === "auth/user-not-found") {
         NotificationFacade.error("Email does not exist.");
@@ -113,33 +143,45 @@ const LoginPage: React.FC = () => {
         <p className="subtitle">Login to your account</p>
 
         <form onSubmit={handleLogin} className="login-form">
-          <div className="input-box">
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          
+          {/* Formatted Email Field */}
+          <div className="field-group">
+            <label style={{ display: 'block', textAlign: 'left', marginBottom: '8px', color: '#cfeeff', fontSize: '14px' }}>
+              Email Address
+            </label>
+            <InputRow icon={EmailIcon}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </InputRow>
           </div>
 
-          <div className="input-box password-box">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <span
-              className="toggle-password"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              <img
-                src={showPassword ? "/icons/eye-off.png" : "/icons/eye.png"}
-                alt="Toggle Visibility"
+          {/* Formatted Password Field */}
+          <div className="field-group" style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', textAlign: 'left', marginBottom: '8px', color: '#cfeeff', fontSize: '14px' }}>
+              Password
+            </label>
+            <InputRow icon={LockIcon}>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
-            </span>
+              <button 
+                type="button" 
+                className="eye-btn" 
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0 10px', color: '#cfeeff' }}
+              >
+                {showPassword ? <EyeOffIcon /> : <EyeOpenIcon />}
+              </button>
+            </InputRow>
           </div>
 
           <div className="options-row">
@@ -171,13 +213,14 @@ const LoginPage: React.FC = () => {
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
               alt="Google"
+              style={{ width: '20px', height: '20px' }}
             />
           </button>
         </div>
 
         <p className="login-link">
           Don’t have an account?{" "}
-          <span onClick={() => navigate("/register")}>Register</span>
+          <span onClick={() => navigate("/register")} style={{ cursor: 'pointer', color: '#2EC4FF' }}>Register</span>
         </p>
       </div>
 
@@ -188,14 +231,16 @@ const LoginPage: React.FC = () => {
             <h2>Reset Password</h2>
             <p>Enter your registered email to receive a password reset link.</p>
             <form onSubmit={handlePasswordReset}>
-              <div className="input-box">
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  value={resetEmail}
-                  onChange={(e) => setResetEmail(e.target.value)}
-                  required
-                />
+              <div className="field-group" style={{ marginBottom: '20px' }}>
+                <InputRow icon={EmailIcon}>
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    required
+                  />
+                </InputRow>
               </div>
               <div className="modal-actions">
                 <button type="submit" className="btn-primary">

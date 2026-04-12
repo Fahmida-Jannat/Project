@@ -1,134 +1,188 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  font-family: 'Inter', sans-serif;
 }
 
 html, body {
   width: 100%;
   height: 100%;
-  background: #0F2A3D;
-  overflow: hidden;
+  background: #091a30; /* Fallback */
 }
 
+/* ── Full-screen page (Matches Register Background) ── */
 .login-container {
   position: fixed;
   inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at 20% 20%, #143a57, #0F2A3D 45%, #081b28 75%);
+  background: linear-gradient(135deg, #0a1628 0%, #0d2240 45%, #091a30 100%);
   overflow: hidden;
 }
 
-/* Background decorative blobs */
-.login-container::before,
-.login-container::after {
-  content: '';
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  filter: blur(140px);
-  opacity: 0.7;
-  animation: float 10s infinite alternate ease-in-out;
-}
-
-.login-container::before {
-  background: #2EC4FF;
-  top: -140px;
-  left: -140px;
-}
-
-.login-container::after {
-  background: #1B5F8A;
-  bottom: -140px;
-  right: -140px;
-  animation-delay: 4s;
-}
-
-@keyframes float {
-  from { transform: translate(0, 0); }
-  to { transform: translate(35px, 30px); }
-}
-
+/* ── Glass Card (Adapted to match Register right-panel) ── */
 .glass-card {
-  /* MODIFIED: Increased width for a better aspect ratio */
-  width: 480px; 
+  width: 440px; 
   max-width: 90%;
-  background: rgba(30, 78, 110, 0.45);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: 50px;
-  border: 1px solid rgba(46,196,255,0.3);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-  animation: fadeUp 0.7s ease;
+  border-radius: 20px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  animation: fadeUp 0.6s ease;
   z-index: 2;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(25px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* MODIFIED: Scaled down the logo text */
-h2 {
-  color: #EAF6FF;
-  font-size: 38px; /* Balanced size */
-  font-weight: 700;
-  letter-spacing: -1px;
+/* ── Headings ── */
+.welcome-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(180, 210, 240, 0.6);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   margin-bottom: 4px;
 }
 
-.welcome-text {
-  font-size: 16px;
-  font-weight: 600;
-  color: #EAF6FF;
+.app-title {
+  color: #e2f0ff;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-align: center;
+  margin-bottom: 6px;
 }
 
-p {
-  color: #cfeeff;
-  font-size: 15px;
+.subtitle {
+  color: rgba(180, 210, 240, 0.55);
+  font-size: 14px;
+  text-align: center;
   margin-bottom: 30px;
-  opacity: 0.8;
 }
 
-.input-box {
-  position: relative;
-  margin-bottom: 20px;
+/* ── Form Inputs (Copied from RegisterPage) ── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  margin-bottom: 16px;
 }
 
-.input-box input {
+.field-group label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(148, 198, 234, 0.8) !important;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
   width: 100%;
-  padding: 16px 18px;
-  border-radius: 14px;
-  border: 1px solid rgba(46,196,255,0.2);
+  background: rgba(10, 30, 55, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.input-row:focus-within {
+  border-color: rgba(56, 189, 248, 0.55);
+  background: rgba(10, 30, 55, 0.92);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.09);
+}
+
+.input-icon {
+  flex: 0 0 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.input-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: rgba(148, 210, 255, 0.5);
+  fill: none;
+  stroke-width: 1.8;
+}
+
+.input-divider {
+  flex: 0 0 1px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.input-row input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  padding: 0 11px;
+  background: transparent;
+  border: none;
   outline: none;
-  font-size: 15px;
-  background: rgba(15,42,61,0.6);
-  color: #EAF6FF;
-  transition: 0.3s ease;
+  font-size: 13px;
+  color: #e8f4ff;
+  caret-color: #38bdf8;
 }
 
-.input-box input:focus {
-  border-color: #2EC4FF;
-  background: rgba(15,42,61,0.8);
-  box-shadow: 0 0 15px rgba(46,196,255,0.3);
+.input-row input::placeholder {
+  color: rgba(180, 210, 240, 0.38);
+  font-size: 12.5px;
 }
 
+.eye-btn {
+  flex: 0 0 36px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.eye-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.eye-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: rgba(148, 210, 255, 0.38);
+  transition: stroke 0.2s;
+}
+
+.eye-btn:hover svg {
+  stroke: rgba(148, 210, 255, 0.85);
+}
+
+/* ── Options Row (Remember Me & Forgot Pass) ── */
 .options-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
-  margin-bottom: 25px;
-  /* MODIFIED: Prevent wrapping so "Remember Me" stays on one line */
-  flex-wrap: nowrap; 
-  color: #cfeeff;
+  font-size: 12.5px;
+  margin-bottom: 24px;
+  color: rgba(180, 210, 240, 0.8);
 }
 
 .options-row label {
@@ -136,97 +190,101 @@ p {
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  white-space: nowrap; /* Forces text to stay on one line */
 }
 
-/* Custom Checkbox Style */
 input[type="checkbox"] {
-  accent-color: #2EC4FF;
-  width: 16px;
-  height: 16px;
+  accent-color: #38bdf8;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .options-row .forgot {
   cursor: pointer;
-  color: #2EC4FF;
+  color: #38bdf8;
   font-weight: 500;
-  text-decoration: none;
+  transition: 0.2s;
 }
 
+.options-row .forgot:hover {
+  text-decoration: underline;
+}
+
+/* ── Buttons ── */
 .btn-primary {
   width: 100%;
-  padding: 16px;
-  border-radius: 14px; /* Matches input radius for consistency */
+  padding: 12px;
   border: none;
-  background: #26A6E0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1d6fa8, #38bdf8 50%, #6366f1);
+  background-size: 200%;
+  font-size: 13.5px;
+  font-weight: 700;
   color: #fff;
-  font-size: 16px;
-  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 4px 15px rgba(38, 166, 224, 0.3);
+  transition: all 0.35s;
+  letter-spacing: 0.2px;
 }
 
-.btn-primary:hover {
-  background: #2EC4FF;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(46, 196, 255, 0.4);
+.btn-primary:not(:disabled):hover {
+  background-position: right center;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.28);
 }
 
-.social-login {
-  margin-top: 25px;
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
-.google-btn {
-  background: #1A1A1A;
-  border-radius: 12px;
-  padding: 10px;
+/* ── Google Login ── */
+.google-icon-box {
+  display: flex;
+  justify-content: center;
+}
+
+.google-icon-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.1);
   transition: 0.3s;
 }
 
-.google-btn:hover {
-  background: #222;
+.google-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.register-link {
-  margin-top: 25px;
-  font-size: 14px;
-  color: #cfeeff;
+/* ── Links ── */
+.login-link {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 12px;
+  color: rgba(160, 200, 235, 0.5);
 }
 
-.register-link a {
-  color: #2EC4FF;
-  text-decoration: none;
+.login-link span {
+  color: #38bdf8;
   font-weight: 600;
-}
-
-.password-box {
-  position: relative;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
   cursor: pointer;
-  opacity: 0.6;
 }
 
-/* Modal Overlay Styles */
+.login-link span:hover {
+  text-decoration: underline;
+}
+
+/* ── Forgot Password Modal ── */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6); /* Darkens the background */
-  backdrop-filter: blur(5px);
+  inset: 0;
+  background: rgba(5, 12, 22, 0.8);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,31 +292,38 @@ input[type="checkbox"] {
 }
 
 .modal-content {
-  text-align: center;
+  width: 400px;
+  padding: 30px;
 }
 
 .modal-content h2 {
-  margin-bottom: 10px;
+  color: #e2f0ff;
+  font-size: 22px;
+  margin-bottom: 8px;
+  text-align: center;
 }
 
 .modal-content p {
-  margin-bottom: 20px;
-  color: #ccc;
-  font-size: 0.9rem;
+  color: rgba(180, 210, 240, 0.6);
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
 .modal-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .btn-secondary {
-  background: transparent;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 10px 15px;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e8f4ff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
   cursor: pointer;
   flex: 1;
   transition: 0.3s;
@@ -270,5 +335,11 @@ input[type="checkbox"] {
 
 .modal-actions .btn-primary {
   flex: 1;
-  margin-top: 0; /* overrides default top margin if any */
+}
+
+/* Responsive constraints */
+@media (max-width: 480px) {
+  .glass-card {
+    padding: 30px 20px;
+  }
 }
