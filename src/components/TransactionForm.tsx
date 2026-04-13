@@ -36,7 +36,7 @@ const TransactionForm: React.FC<Props> = (props) => {
         <input 
           type="number" 
           placeholder="Amount (৳)" 
-          value={props.amount || ''} 
+          value={props.amount} 
           onChange={e => props.setAmount(Number(e.target.value))} 
         />
         <input 
