@@ -7,56 +7,87 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-container">
-
-      {/* Navbar */}
+      {/* Navigation */}
       <nav className="navbar">
-        <div className="logo">CashTrail</div>
-        <div className="nav-right">
-          <a href="mailto:support@cashtrail.com" className="email">support@cashtrail.com</a>
-          <button onClick={() => navigate("/login")} className="nav-btn">Login</button>
-          <button onClick={() => navigate("/register")} className="nav-btn primary">Register</button>
+        <div className="logo-text">CASHTRAIL</div>
+        <div className="nav-actions">
+          <button onClick={() => navigate("/login")} className="login-link">Login</button>
+          <button onClick={() => navigate("/register")} className="btn-primary">Create Account</button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-text">
-          <h1>Welcome to CashTrail</h1>
-          <p className="subtitle">Your Personal Expense Tracker</p>
-          <p className="description">
-            CashTrail helps you manage daily expenses, track spending habits,
-            and stay financially organized. Simple, secure, and easy to use.
+      <header className="hero-section">
+        <div className="hero-content">
+          <span className="hero-tagline">Financial Intelligence Reimagined</span>
+          <h1>Master Your Money <br /> <span className="text-gradient">With Every Transaction</span></h1>
+          <p className="hero-description">
+            Experience a seamless way to track income, manage multi-category budgets, 
+            and visualize your financial health through advanced data analytics.
           </p>
-          <button onClick={() => navigate("/register")} className="cta-btn">
-            Get Started
-          </button>
+          <div className="hero-cta-group">
+            <button onClick={() => navigate("/register")} className="btn-large">Start Tracking For Free</button>
+            <button onClick={() => navigate("/login")} className="btn-outline">Explore Dashboard</button>
+          </div>
         </div>
-      </section>
 
-      {/* Feature Cards */}
-      <section className="features">
-        <h2>Why Use CashTrail?</h2>
-        <div className="feature-grid">
-          <div className="feature-card">
-            <h3>Track Expenses</h3>
-            <p>Easily record daily income and expenses</p>
+        {/* Abstract Preview of Dashboard Elements */}
+        <div className="hero-visual">
+          <div className="floating-card balance-card">
+            <span className="card-label">Total Balance</span>
+            <span className="card-value">৳ 2,53,850</span>
           </div>
-          <div className="feature-card">
-            <h3>Smart Dashboard</h3>
-            <p>Visualize your finances with interactive charts</p>
+          <div className="floating-card alert-card">
+            <span className="alert-status">Budget Exceeded</span>
+            <span className="alert-detail">You overspent on food by ৳ 600</span>
           </div>
-          <div className="feature-card">
-            <h3>Secure Account</h3>
-            <p>Your data is fully protected with secure authentication</p>
+        </div>
+      </header>
+
+      {/* Features Section */}
+      <section className="features-section">
+        <div className="section-title">
+          <h2>Everything You Need to Scale Your Savings</h2>
+        </div>
+        
+        <div className="features-grid">
+          <div className="feature-item">
+            <div className="feature-line"></div>
+            <h3>Spending Analysis</h3>
+            <p>Switch between Pie, Bar, and Line charts to understand exactly where your money flows each month.</p>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-line"></div>
+            <h3>Smart Budgeting</h3>
+            <p>Set specific limits for categories like Rent, Shopping, and Food. Receive instant alerts before you overspend.</p>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-line"></div>
+            <h3>Quick Add Interface</h3>
+            <p>Our streamlined entry system allows you to log income or expenses in under three seconds.</p>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-line"></div>
+            <h3>Financial Goals</h3>
+            <p>Define long-term savings objectives and watch your progress update in real-time as you save.</p>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="footer">
-        © 2026 CashTrail
+      <footer className="home-footer">
+        <div className="footer-content">
+          <p>© 2026 CashTrail Financial Systems</p>
+          <div className="footer-links">
+            {/* Added actual link tags for functionality */}
+            <a href="#privacy" className="footer-link">Privacy Policy</a>
+            <a href="mailto:support@cashtrail.com" className="footer-link">Support</a>
+          </div>
+        </div>
       </footer>
-      
     </div>
   );
 };
